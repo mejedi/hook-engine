@@ -33,7 +33,8 @@ extern "C" {
 // int my_trampoline(int param);
 // HOOK_DEFINE_TRAMPOLINE(my_trampoline);
 #define HOOK_DEFINE_TRAMPOLINE(name) \
-__asm__(".local " HOOK_S(name) "\n" \
+__asm__(".globl " HOOK_S(name) "\n" \
+        ".hidden " HOOK_S(name) "\n" \
         HOOK_S(name) ":\n" \
         "\t.skip " HOOK_S(HOOK_TRAMPOLINE_LEN) ", 0xcc\n" \
         "\tleaq _J_" HOOK_S(name) "(%rip), %rax;\n" \
