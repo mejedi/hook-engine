@@ -41,16 +41,16 @@ a quote from Douglas Adams:
 ```c
 ssize_t __wrap__read(int fd, void *buf, size_t count) {
   if (fd == 42) {
-    static const char thequestion[] = "answer to life the universe and everything";
-    if (count >= sizeof thequestion) count = (sizeof thequestion) - 1;
-    memcpy(buf, thequestion, count);
+    static const char msg[] = "answer to life the universe and everything";
+    if (count >= sizeof msg) count = (sizeof msg) - 1;
+    memcpy(buf, msg, count);
     return count;
   }
   return __real__read(fd, buf, count);
 }
 ```
 
-Finally, let's installs the hook and render the trampoline:
+Finally install the hook and render the trampoline:
 ```c
 if (hook_install(read, __wrap__read, __real__read) != 0) {
   fprintf(stderr, "%s\n", hook_last_error());
